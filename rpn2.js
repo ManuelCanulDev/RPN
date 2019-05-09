@@ -23,7 +23,15 @@ function main(){
                 console.log();
                 console.log("Separando ecuacion...");
                 console.log(tokenize(VALO)); 
-                console.log();
+
+                let {consigers,  erers} = validarErrSig(VALO);
+                
+                if(consigers === true){
+                    console.log("¡Se detectó un error en la expresión!");
+                    console.log("¡Se hallaron caracteres invalidos!");
+                    console.log(erers);
+                }else{
+                  console.log();
                 console.log("Pasando a Postfijo...");
                 console.log(infixToPostfix(tokenize(VALO))); 
                 console.log();
@@ -31,9 +39,12 @@ function main(){
                 console.log(RPN(infixToPostfix(tokenize(VALO)))); 
                 console.log();
                 console.log("FINALIZADO");
-              }else{
-                console.log("NO PUEDO EVALUAR ESTO");
               }
+                }
+                else{
+                  console.log("¡Se detectó un error en la expresión!");
+                }
+                
             } else {
               console.log();
               console.log(`¡Se detectó un error en la expresión en el indice ${index}!`);
@@ -219,5 +230,32 @@ function RPN(seq) {
   
     return parseInt(stack[0],10)
   };
+
+
+  function validarErrSig(ecu){
+    let erss = [];
+    let ers = 0;
+    let signos = ['{','[', '(', ')', ']', '}','+', '-', '*', '/', '','1','2','3','4','5','6','7','8','9','0'];
+    console.log(signos.length);
+    for (let i = 0; i < ecu.length; i++) {
+      for (let j = 0; j < signos.length; j++) {
+          if(ecu[i] !== signos[j]){
+            ers++;
+            erss.push(ecu[i]);
+          }
+      }
+      erss.unique();
+    }
+
+    if(ers > 0){
+      return {consigers: true,  erers: erss};
+    }else{
+      return {consigers: false,  erers: erss};
+    }
+  }
+
+  Array.prototype.unique=function(a){
+    return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
+  });
 
 main();
