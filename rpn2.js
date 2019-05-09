@@ -1,3 +1,79 @@
+function main(){
+
+        var rs = require('readline');
+
+        const resp = rs.createInterface({
+            input: process.stdin,
+            output: process.stdout
+          });
+
+          resp.question('Introduzca lo que vamos a calcular: ', (VALO) => {
+            
+            console.log("Validando parentesís...");
+            let expr = "2 * 3 *(3/3)";
+            let {error, index} = verify(VALO);
+            if (error === false) {
+              console.log();
+              console.log('¡Expresión correcta!');
+              console.log();
+              console.log("Evaluando Operandos...");
+              let sig = evaluate(VALO);
+              if(sig === true){
+                console.log("¡Operandos correctos!")
+                console.log();
+                console.log("Separando ecuacion...");
+                console.log(tokenize(VALO)); 
+                console.log();
+                console.log("Pasando a Postfijo...");
+                console.log(infixToPostfix(tokenize(VALO))); 
+                console.log();
+                console.log("Evaluando y resolviendo RPN...");
+                console.log(RPN(infixToPostfix(tokenize(VALO)))); 
+                console.log();
+                console.log("FINALIZADO");
+              }else{
+                console.log("NO PUEDO EVALUAR ESTO");
+              }
+            } else {
+              console.log();
+              console.log(`¡Se detectó un error en la expresión en el indice ${index}!`);
+            }
+            resp.close();
+          });
+
+}
+
+function verify(expr) {
+  let stack = [];
+  const allSymbols = ['{', '[', '(', ')', ']', '}'];
+  const openSymbols = ['{', '[', '('];
+  const checkSymbols = { '{': '}', '[': ']', '(': ')' };
+
+  for (let i = 0; i < expr.length; ++i) {
+      let token = expr[i];
+      if (allSymbols.findIndex(e => e === token) >= 0) {
+          if (openSymbols.findIndex(e => e === token) >= 0) {
+              stack.push(token);
+          } else {
+              if (stack.length === 0) {
+                  return { error: true, index: i };
+              }
+
+              let poppedToken = stack.pop();
+              if (checkSymbols[poppedToken] !== token) {
+                  return { error: true, index: i };
+              }
+          }
+      }
+  }
+
+  if (stack.length > 0) {
+      return { error: true, index: expr.length };
+  }
+
+  return { error: false, index: -1 };
+}
+
 function evaluate(values) {
     // var input = prompt("Please enter your input string\n\nExamples of input strings:\n\n\t1. 10 4 5 + *\n\t2. 10 4 5 + * 2 +\n\t3. 10 8 *");
     // var values = input.split(" ");
@@ -26,10 +102,9 @@ function evaluate(values) {
         }
     }
     if (values.lenght == 0) {
-        console.log("Oops, based on your input we have nothing to calculate for you!");
+        return false;
     } else {
-        console.log("Your RPN calculation is: ");
-        console.log(array);
+        return true;
     }
 }
 
@@ -85,7 +160,6 @@ function infixToPostfix(infix){
 }
 
 function tokenize(exp){
-
     exp = exp.replace(/\s/g, "");
     var outs = exp.match(/\d+\s?\d+|\d+|[\+-\/x()*]/g);
     return outs;
@@ -119,21 +193,25 @@ function RPN(seq) {
           var a = parseInt(stack.splice(-1)[0], 10)
           var b = parseInt(stack.splice(-1)[0], 10)
           stack.push(a+b)
+          
         }
         if (index == 1) {
         var a = parseInt(stack.splice(-1)[0], 10)
           var b = parseInt(stack.splice(-1)[0], 10)
           stack.push(b-a)
+          
         }
         if (index == 2) {
         var a = parseInt(stack.splice(-1)[0], 10)
           var b = parseInt(stack.splice(-1)[0], 10)
           stack.push(a*b)
+          
         }
         if (index == 3) {
         var a = parseInt(stack.splice(-1)[0], 10)
           var b = parseInt(stack.splice(-1)[0], 10)
           stack.push(b/a)
+          
         }
       }
        i++
@@ -142,6 +220,4 @@ function RPN(seq) {
     return parseInt(stack[0],10)
   };
 
-console.log(tokenize("3 * (8 + 32) - 3")); 
-console.log(infixToPostfix(tokenize("3 * (8 + 32) - 3"))); 
-console.log(RPN(infixToPostfix(tokenize("3 * (8 + 32) - 3")))); 
+main();
