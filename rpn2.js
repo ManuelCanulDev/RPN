@@ -232,26 +232,26 @@ function RPN(seq) {
   };
 
 
-  function validarErrSig(ecu){
+  function validarErrSig(ecu){ // 2 + 2
     let erss = [];
     let ers = 0;
-    let signos = ['{','[', '(', ')', ']', '}','+', '-', '*', '/', '','1','2','3','4','5','6','7','8','9','0'];
-    console.log(signos.length);
+    let signos = ['{','[', '(', ')', ']', '}','+', '-', '*', '/', ' ','1','2','3','4','5','6','7','8','9','0'];
+
     for (let i = 0; i < ecu.length; i++) {
-      for (let j = 0; j < signos.length; j++) {
-          if(ecu[i] !== signos[j]){
-            ers++;
-            erss.push(ecu[i]);
-          }
+      if(signos.includes(ecu[i])){
+        
+      }else{
+        erss.push(ecu[i]);
+        ers++;
       }
-      erss.unique();
     }
 
     if(ers > 0){
-      return {consigers: true,  erers: erss};
+      return {consigers: true ,  erers: erss} 
     }else{
-      return {consigers: false,  erers: erss};
+      return {consigers: false ,  erers: 'Todo Correcto'} 
     }
+
   }
 
   Array.prototype.unique=function(a){
