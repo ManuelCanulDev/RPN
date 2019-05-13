@@ -13,8 +13,7 @@ function main(){
             let expr = "2 * 3 *(3/3)";
             let {error, index} = verify(VALO);
             if (error === false) {
-              console.log();
-              console.log('¡Expresión correcta!');
+              console.log('¡Parentesis correctos!');
               console.log();
               console.log("Evaluando Operandos...");
               let sig = evaluate(VALO);
@@ -23,7 +22,8 @@ function main(){
                 console.log();
                 console.log("Separando ecuacion...");
                 console.log(tokenize(VALO)); 
-
+                console.log("¡Ecuacion separada!")
+                console.log("Evaluando signos no permitidos...")
                 let {consigers,  erers} = validarErrSig(VALO);
                 
                 if(consigers === true){
@@ -31,6 +31,7 @@ function main(){
                     console.log("¡Se hallaron caracteres invalidos!");
                     console.log(erers);
                 }else{
+                  console.log("¡No se detecto signo no permitido!")
                   console.log();
                 console.log("Pasando a Postfijo...");
                 console.log(infixToPostfix(tokenize(VALO))); 
@@ -47,7 +48,7 @@ function main(){
                 
             } else {
               console.log();
-              console.log(`¡Se detectó un error en la expresión en el indice ${index}!`);
+              console.log('¡Se detectó un error en los parentesis, verifique su expresion!');
             }
             resp.close();
           });
