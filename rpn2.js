@@ -20,38 +20,38 @@ function main(){
               if(sig === true){
                 console.log("¡Operandos correctos!")
                 console.log();
-                console.log("Separando ecuacion...");
-                console.log(tokenize(VALO)); 
-                console.log("¡Ecuacion separada!")
                 console.log("Evaluando signos no permitidos...")
                 let {consigers,  erers} = validarErrSig(VALO);
                 
-                if(consigers === true){
-                    console.log("¡Se detectó un error en la expresión!");
-                    console.log("¡Se hallaron caracteres invalidos!");
-                    console.log(erers);
-                }else{
-                  console.log("¡No se detecto signo no permitido!")
-                  console.log();
-                console.log("Pasando a Postfijo...");
-                console.log(infixToPostfix(tokenize(VALO))); 
-                console.log();
-                console.log("Evaluando y resolviendo RPN...");
-                console.log(RPN(infixToPostfix(tokenize(VALO)))); 
-                console.log();
-                console.log("FINALIZADO");
-              }
+                    if(consigers === true){
+                        console.log("¡Se detectó un error en la expresión!");
+                        console.log("¡Se hallaron caracteres invalidos!");
+                        console.log(erers);
+                    }else{
+                      console.log("¡No se detecto signo no permitido!")
+                      console.log();
+                      console.log("Separando ecuacion...");
+                      console.log(tokenize(VALO)); 
+                      console.log("¡Ecuacion separada!")
+                      console.log();
+                      console.log("Pasando a Postfijo...");
+                      console.log(infixToPostfix(tokenize(VALO))); 
+                      console.log();
+                      console.log("Evaluando y resolviendo RPN...");
+                      console.log(RPN(infixToPostfix(tokenize(VALO)))); 
+                      console.log();
+                      console.log("FINALIZADO");
+                  }
                 }
                 else{
                   console.log("¡Se detectó un error en la expresión!");
                 }
-                
             } else {
               console.log();
               console.log('¡Se detectó un error en los parentesis, verifique su expresion!');
             }
             resp.close();
-          });
+        });
 
 }
 
@@ -230,10 +230,9 @@ function RPN(seq) {
     }
   
     return parseInt(stack[0],10)
-  };
+}//;
 
-
-  function validarErrSig(ecu){ // 2 + 2
+function validarErrSig(ecu){
     let erss = [];
     let ers = 0;
     let signos = ['{','[', '(', ')', ']', '}','+', '-', '*', '/', ' ','1','2','3','4','5','6','7','8','9','0'];
@@ -253,10 +252,7 @@ function RPN(seq) {
       return {consigers: false ,  erers: 'Todo Correcto'} 
     }
 
-  }
+}
 
-  Array.prototype.unique=function(a){
-    return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
-  });
 
 main();
